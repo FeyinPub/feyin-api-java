@@ -7,11 +7,22 @@
     <groupId>com.feyin.api</groupId>
     <artifactId>feyin-api</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>feyin api</name>
+    <description>feyin api application</description>
+
+    <url>https://github.com/FeyinPub/feyin-api-java</url>
+
+    <issueManagement>
+        <url>https://github.com/FeyinPub/feyin-api-java/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
 
     <licenses>
         <license>
-            <name>MIT License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -19,6 +30,10 @@
     <scm>
         <url>https://github.com/FeyinPub/feyin-api-java.git</url>
     </scm>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
 
     <dependencies>
