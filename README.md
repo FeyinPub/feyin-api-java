@@ -12,15 +12,16 @@
 <dependency>
     <groupId>net.feyin.api</groupId>
     <artifactId>feyin-api</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
 ### code
 
 ```java
-String memberCode="fb58abf0eb8111e68c6c52540008b6e6";
-String apiKey = "32ab6d12";
+String memberCode="fb58abf0eb8111e68c6c52540008b6e6"; // 开发帐号，请在http://my.feyin.net 中获取
+String apiKey = "32ab6d12"; //开发密钥，请在http://my.feyin.net 中获取
+
 FeyinClient feyinClient = new FeyinClient(memberCode, apiKey);
 String msg = "需要打印的消息内容"; // 消息排版以及支持的格式请参考 api文档中"打印内容相关"一栏。
 int result = feyiniClient.sendMsg(deviceNo, msg);
