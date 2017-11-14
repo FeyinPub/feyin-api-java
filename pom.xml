@@ -4,13 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.feyin.api</groupId>
+    <groupId>net.feyin.api</groupId>
     <artifactId>feyin-api</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>feyin api</name>
     <description>feyin api application</description>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
     <url>https://github.com/FeyinPub/feyin-api-java</url>
 
@@ -29,7 +35,17 @@
 
     <scm>
         <url>https://github.com/FeyinPub/feyin-api-java.git</url>
+        <connection>https://github.com/FeyinPub/feyin-api-java.git</connection>
+        <developerConnection>https://github.com/FeyinPub/feyin-api-java</developerConnection>
     </scm>
+
+    <developers>
+        <developer>
+            <name>feyin_dev</name>
+            <email>account@feyin.net</email>
+            <url>https://github.com/FeyinPub</url>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
