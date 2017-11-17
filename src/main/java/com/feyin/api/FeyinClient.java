@@ -1,25 +1,28 @@
 package com.feyin.api;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
+import com.alibaba.fastjson.JSONObject;
+import com.feyin.util.MD5Ecnrypt;
+import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
-import com.feyin.util.MD5Ecnrypt;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -29,13 +32,13 @@ import com.feyin.util.MD5Ecnrypt;
  */
 public class FeyinClient {
 
-    static final String FEYIN_HOST = "my.feyin.net";
-    static final int FEYIN_PORT = 80;
+    private static final String FEYIN_HOST = "my.feyin.net";
+    private static final int FEYIN_PORT = 80;
 
-    final String host;
-    final int port;
-    String apiKey;  //api 密钥，由feyin网提供
-    String memberCode; //商户的代码，由feyin网提供
+    private final String host;
+    private final int port;
+    private String apiKey;  //api 密钥，由feyin网提供
+    private String memberCode; //商户的代码，由feyin网提供
 
     public FeyinClient(String memberCode,String apiKey) {
         this(FEYIN_HOST, FEYIN_PORT, apiKey, memberCode);
@@ -208,6 +211,45 @@ public class FeyinClient {
     }
 
     /**
+     * 绑定打印机，需要开通权限才能调用
+     *
+     * @param deviceNo
+     * @return
+     * @throws Exception
+     */
+    public FeyinResponse bindPrinter(String deviceNo) throws Exception {
+        return feyinPrinterSetting(deviceNo, "/api/v2/device/bind");
+    }
+
+    /**
+     * 解绑打印机，需要开通权限才能调用
+     *
+     * @param deviceNo
+     * @return
+     * @throws Exception
+     */
+    public FeyinResponse unbindPrinter(String deviceNo) throws Exception {
+        return feyinPrinterSetting(deviceNo, "/api/v2/device/unbind");
+    }
+
+    private FeyinResponse feyinPrinterSetting(String deviceNo, String url) throws Exception {
+        long reqTime = System.currentTimeMillis();
+        JSONObject object = new JSONObject();
+        object.put("memberCode", this.memberCode);
+        object.put("deviceNo", deviceNo);
+        object.put("reqTime", reqTime);
+        object.put("securityCode", getSecurityCode(deviceNo, reqTime));
+        String json = object.toString();
+        return sendJsonMessage(url, json);
+    }
+
+    private String getSecurityCode(String deviceNo, long reqTime) throws Exception {
+        String contentToEncrypt = String.format("%s%s%d%s",
+                deviceNo, this.memberCode, reqTime, this.apiKey);
+        return MD5Ecnrypt.EncodeMD5Hex(contentToEncrypt);
+    }
+
+    /**
      * 公共的发送post请求的方法
      *
      * @param nvps
@@ -285,6 +327,28 @@ public class FeyinClient {
 
     }
 
+    /**
+     * 公共的发送Json数据请求的方法
+     *
+     * @param url
+     * @param json
+     * @return
+     * @throws URISyntaxException
+     * @throws IOException
+     */
+    private FeyinResponse sendJsonMessage(String url, String json) throws URISyntaxException, IOException {
+        String uri = String.format("http://%s:%d%s", this.host, this.port, url);
+        HttpPost httpPost = new HttpPost(uri);
+        httpPost.addHeader(HTTP.CONTENT_TYPE, "application/json");
+        StringEntity se = new StringEntity(json, Consts.UTF_8);
+        httpPost.setEntity(se);
+        HttpResponse httpResponse = new DefaultHttpClient().execute(httpPost);
+        if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            String result = EntityUtils.toString(httpResponse.getEntity());
+            return JSONObject.parseObject(result, FeyinResponse.class);
+        }
+        return null;
+    }
 
     public String getHost() {
         return host;
