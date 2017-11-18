@@ -104,6 +104,7 @@ public class FeyinClient {
     }
 
     /**
+     * @deprecated  请直接使用 sendMsg
      * 提交自由格式的内容
      *
      * @param msg
