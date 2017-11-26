@@ -12,7 +12,7 @@
 <dependency>
     <groupId>net.feyin.api</groupId>
     <artifactId>feyin-api</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 </dependency>
 ```
 
@@ -39,16 +39,27 @@ if(result == 0){
 }
 ```
 
+### 清除未打印消息
+
+```java
+FeyinResponse response = feyinClient.clearPendingMsgs(deviceNo); 
+if(response.isSuccess()){
+    System.out.println("未打印消息已成功清除");
+}
+else{
+    System.err.println(String.format("清除失败，原因：%s", response.getErrMsg()));
+}
+```
 
 ### 绑定机器
 
 ```java
-FeyinResponse bindResponse = feyinClient.bindPrinter(deviceNo); // 请注意，本接口针对第三方开发平台，需申请开通
-if(bindResponse.isSuccess()){
+FeyinResponse response = feyinClient.bindPrinter(deviceNo); // 请注意，本接口针对第三方开发平台，需申请开通
+if(response.isSuccess()){
     System.out.println("绑定成功");
 }
 else{
-    System.err.println(String.format("绑定失败，原因：%s", bindResponse.getErrMsg()));
+    System.err.println(String.format("绑定失败，原因：%s", response.getErrMsg()));
 }
 ```
 
@@ -56,11 +67,11 @@ else{
 ### 解绑机器
 
 ```java
-FeyinResponse bindResponse = feyinClient.unbindPrinter(deviceNo); // 请注意，本接口针对第三方开发平台，需申请开通
-if(bindResponse.isSuccess()){
+FeyinResponse response = feyinClient.unbindPrinter(deviceNo); // 请注意，本接口针对第三方开发平台，需申请开通
+if(response.isSuccess()){
     System.out.println("解除绑定成功");
 }
 else{
-    System.err.println(String.format("解除绑定失败，原因：%s", bindResponse.getErrMsg()));
+    System.err.println(String.format("解除绑定失败，原因：%s", response.getErrMsg()));
 }
 ```

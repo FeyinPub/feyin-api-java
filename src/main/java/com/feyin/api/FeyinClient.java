@@ -233,6 +233,16 @@ public class FeyinClient {
         return feyinPrinterSetting(deviceNo, "/api/v2/device/unbind");
     }
 
+    /**
+     * 清除特定设备中还未打印的消息
+     * @param deviceNo
+     * @return
+     * @throws Exception
+     */
+    public FeyinResponse clearPendingMsgs(String deviceNo) throws Exception {
+        return feyinPrinterSetting(deviceNo, "/api/v2/msg/pending/clear");
+    }
+
     private FeyinResponse feyinPrinterSetting(String deviceNo, String url) throws Exception {
         long reqTime = System.currentTimeMillis();
         JSONObject object = new JSONObject();
