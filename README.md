@@ -21,8 +21,8 @@
 ### 初始化 client
 
 ```java
-String memberCode="fb58abf0eb8111e68c6c52540008b6e6"; // 开发帐号，请在http://my.feyin.net 中获取
-String apiKey = "32ab6d12"; //开发密钥，请在http://my.feyin.net 中获取
+String memberCode="*********8111e68c6c52540008b6e6"; // 开发帐号，请在http://my.feyin.net 中获取
+String apiKey = "*****d12"; //开发密钥，请在http://my.feyin.net 中获取
 FeyinClient feyinClient = new FeyinClient(memberCode, apiKey);
 ```
 
